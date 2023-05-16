@@ -1,6 +1,6 @@
 <script setup>
 import {ref, watch} from 'vue'
-let todos = ref(JSON.parse(window.localStorage.getItem('todos')))
+let todos = ref(JSON.parse(window.localStorage.getItem('todos')) ?? [])
 let newTodo = ref('')
 let input = ref('')
 watch(todos, function(value){window.localStorage.setItem('todos' ,JSON.stringify(value))},{deep:true})
@@ -13,35 +13,30 @@ todos.value.splice(index, 1) }
 </script>
 
 <template>
-<body>
-  
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <h1>My Todo Application</h1>
   <hr>
   <input v-model="newTodo" @keydown.enter="addTodo">
   &nbsp;
   <button @click="addTodo">Add Task</button>
   <ul>
-  <li v-for="(todo, index) in todos" style="text-align: left;" ><input type="checkbox" v-model="todo.complete" class="checkmark  " style="margin-bottom:0;">
-    {{ todo.text }} 
-    <button @click="deleteTodo(index)">🚮</button>  <hr style="color: blanchedalmond;,width: 2px;"> </li>
+  <div class="wrapper">
+  <li v-for="(todo, index) in todos" style="text-align: left;" :class="{completed: todo.complete}"><input type="checkbox" v-model="todo.complete"  id="checkbox" style="margin-bottom:0;">
+   <label> {{ todo.text }} </label>
+    <button @click="deleteTodo(index)">🚮</button>  <hr style="color: blanchedalmond;,width: 2px;"> </li> </div>
   </ul>
 
-</body>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap');
 
-div{
-  width: 500px;
-  text-align: center;
-}
 
-ul {
 
-  margin-left: 39%;
-  margin-right: 45%;
-}
+
 
 
 body{
@@ -54,68 +49,79 @@ body{
 }
 
 
-/* Customize the label (the container) */
-.container {
-  display: table;
+.completed {
 
-  padding-left: 35px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+text-decoration: line-through;
+opacity: 40%;
+font-weight: light;
+
+
 }
 
-/* Hide the browser's default checkbox */
-.container input {
+.wrapper {
+
+  height: 580px;
   position: absolute;
-  opacity: 0;
+  margin: auto;
+  width: 1000px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right:0;
+  align-items: center;
+  justify-content: space-around;
+
+
+}
+
+input[type="checkbox"]{
+  appearance: none;
+  -webkit-appearance: none;
+  height: 30px;
+  width: 30px;
+  background-color: #d5d5d5;
+  border-radius: 50%;
   cursor: pointer;
-  height: 0;
-  width: 0;
+ display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
-/* Create a custom checkbox */
-.checkmark {
-  display: inline;
-  text-align: left;
-  height: 22px;
-  width: 22px;
-  background-color: #eee;
+label {
+  color: #4c4c4c;
+  font-size: 55px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+
 }
 
-/* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-  background-color: #ccc;
+input[type='checkbox']:after{
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f00c";
+  font-size: 20px;
+  color: mediumorchid;
+  /* display: none; */
+
+
+
 }
 
-/* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
-  background-color: #000;
+input[type="checkbox"]:hover{
+  background-color: #a5a5a5;
+
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
+input[type="checkbox"]:checked{
+background-color: #5bcd3e;
 
-
-/* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
-  display: block;
 }
 
-/* Style the checkmark/indicator */
-.container .checkmark:after {
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+input[type="checkbox"]:checkbox:after{
+display: block;
+
+
 }
-
-
-
 </style>
