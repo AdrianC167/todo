@@ -24,10 +24,12 @@ function todoFilter(todo) {
     } 
   }
 
-function deleteAll() {
-  windows.localStorage.clear();
+function activeFilter (todo) {
+  return todo.complete == false
 
 }
+
+
 </script>
 
 <template>
@@ -37,21 +39,25 @@ function deleteAll() {
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <h1>My Todo Application</h1>
-  <hr>
-  <input v-model="newTodo" @keydown.enter="addTodo" id="textarea" placeholder="Type Here">
+  <hr> 
+
+  
+  <div v-if="todos.length > 0">
   <input name="filter" type="radio" value="all" v-model="filter" class="radio"> <label>All</label>
   <input name="filter" type="radio" value="active" v-model="filter" class="radio"> <label>Active</label>
   <input name="filter" type="radio" value="completed" v-model="filter" class="radio"> <label>Completed</label>
+  </div> 
+  <p> {{ todos.filter(activeFilter).length }} items left</p>
+  <input v-model="newTodo" @keydown.enter="addTodo" id="textarea" placeholder="Type Here">
   &nbsp;
   <button @click="addTodo">Add Task</button>
-  <button @click="deleteAll(value)">Delete All</button>
   <ul>
     <div class="wrapper">
       <li v-for="(todo, index) in todos.filter(todoFilter)" style="text-align: left;" >
         <input type="checkbox" v-model="todo.complete" id="checkbox" style="margin-bottom:0;" class="radio">
         <label :class="{ completed: todo.complete }"> {{ todo.text }} </label>
-        <button @click="deleteTodo(index)">🚮</button>
-     
+        <button @click="deleteTodo(index)" class="right">🚮</button>
+        
       </li>
     </div>
   </ul>
@@ -62,8 +68,13 @@ function deleteAll() {
 
 li {
   display:flex;
-  margin-bottom: 5px;
-  margin-top: 5px;
+  border-color: rgba(185, 30, 236, 0.923);
+  border-width: 1px;
+  border-style: ridge;
+  height: 45px;
+  justify-content: left;
+  align-items: center;
+  background-color: rgba(110, 167, 117, 0.463);
 }
 
 ul{
@@ -92,16 +103,15 @@ body {
 }
 
 .wrapper {
- 
+  display: block;
   height: 500px;
   position: relative;
   margin: 0px;
-  width: 1000px;
+  width: 600px;
   top: 0;
   bottom:0;
   left: 0;
   right: 0;
-  align-items: left;
   justify-content: space-around;
   text-align: left;
 
@@ -168,7 +178,7 @@ input[type="checkbox"]:checked:after {
 }
 
 div {
-
+width:300px;
 text-align: left;
 
 }
@@ -176,6 +186,23 @@ text-align: left;
 #textarea {
 height: 25px;
 width: 300px;
+
+}
+
+.right{
+display: none;
+position: absolute;
+margin-left: 94%;
+align-items: right;
+justify-content: right;
+text-align: right;
+}
+
+li:hover > button {
+display:flex;
+
+
+
 
 }
 
