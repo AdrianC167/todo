@@ -12,6 +12,7 @@ function addTodo() {
 }
 function deleteTodo(index) {
   todos.value.splice(index, 1)
+
 }
 function todoFilter(todo) { 
   if (filter.value == 'active') { 
@@ -48,23 +49,37 @@ function activeFilter (todo) {
   <input name="filter" type="radio" value="completed" v-model="filter" class="radio"> <label>Completed</label>
   </div> 
   <p> {{ todos.filter(activeFilter).length }} items left</p>
-  <input v-model="newTodo" @keydown.enter="addTodo" id="textarea" placeholder="Type Here">
+ <input v-model="newTodo" @keydown.enter="addTodo" id="textarea" placeholder="Enter Here(You can hit enter when you're done)" style="margin-bottom: 12px;">
   &nbsp;
-  <button @click="addTodo">Add Task</button>
-  <ul>
+ 
+  <button @click="addTodo" style="height: 30px;border-radius: 5%;" class="hover">Add Task</button>
+
+
+    <ul>
     <div class="wrapper">
-      <li v-for="(todo, index) in todos.filter(todoFilter)" style="text-align: left;" >
+      <TransitionGroup name="list" tag="ul">
+      <li v-for="(todo, index) in todos.filter(todoFilter)" :key="item" style="text-align: left;" class="animate__bounceIn">
         <input type="checkbox" v-model="todo.complete" id="checkbox" style="margin-bottom:0;" class="radio">
         <label :class="{ completed: todo.complete }"> {{ todo.text }} </label>
         <button @click="deleteTodo(index)" class="right">🚮</button>
-        
-      </li>
-    </div>
+            </li>
+</TransitionGroup>
+    </div> 
   </ul>
+
+ 
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap');
+
+
+p {
+  font-family: 'Inconsolata', monospace;
+
+}
+
 
 li {
   display:flex;
@@ -75,6 +90,7 @@ li {
   justify-content: left;
   align-items: center;
   background-color: rgba(110, 167, 117, 0.463);
+  transform: scale(1);
 }
 
 ul{
@@ -98,6 +114,7 @@ body {
   text-decoration: line-through;
   opacity: 40%;
   font-weight: light;
+  transition: 500ms;
 
 
 }
@@ -139,7 +156,8 @@ label {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
   cursor: pointer;
-
+  opacity: 100%;
+  transition:500ms;
 
 }
 
@@ -203,6 +221,22 @@ display:flex;
 
 
 
+
+}
+
+
+.list-enter-active,
+.list-leave-active {
+  transition: all .85s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(-150px);
+}
+
+.hover:hover{
+background-color: lightcyan;
 
 }
 
