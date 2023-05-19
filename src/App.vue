@@ -30,6 +30,11 @@ function activeFilter (todo) {
 
 }
 
+function deleteAll () {
+
+  todos.value = []
+
+}
 
 </script>
 
@@ -53,6 +58,8 @@ function activeFilter (todo) {
   &nbsp;
  
   <button @click="addTodo" style="height: 30px;border-radius: 5%;" class="hover">Add Task</button>
+  &nbsp
+  <button @click="deleteAll" style="height: 30px;border-radius: 5%;" class="hover">Delete All</button>
 
 
     <ul>
