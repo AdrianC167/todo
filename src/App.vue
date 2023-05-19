@@ -73,7 +73,13 @@ function activeFilter (todo) {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
 
+h1 {
+  font-family: 'Shadows Into Light', cursive;
+  text-transform: uppercase;
+  font-weight: bolder;
+}
 
 p {
   font-family: 'Inconsolata', monospace;
